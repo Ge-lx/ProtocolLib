@@ -37,7 +37,7 @@ public class ProtocolConnection {
         protocol.getPacketInfos();
         for(PacketInfos infos : protocol.getPacketInfos()){
             if(infos.hasResponse()){
-                listeners.put(infos.getType(), new PacketResponseListener(infos.getType(), this.server, protocol));
+                listeners.put(infos.getType(), new PacketResponseListener(infos.getType(), protocol));
             }
         }
     }
@@ -53,7 +53,7 @@ public class ProtocolConnection {
 
     public Packet queryPacket(Packet p){
         try {
-            return listeners.get(p.getClass()).sendAndGetResponse(p);
+            return listeners.get(p.getClass()).sendAndGetResponse(p, isServer ? server.getConnection(p.getAddress()) : client);
         } catch (TimeoutException e) {
             Logger.logMsg(Logger.WARNING, e.getMessage());
             return null;
@@ -64,7 +64,7 @@ public class ProtocolConnection {
         return isServer ? null : client.getRemoteAddress();
     }
 
-    public SocketAddress[] getClientAddresse(){
+    public SocketAddress[] getClientAddresses(){
         if(!isServer)
             return null;
 

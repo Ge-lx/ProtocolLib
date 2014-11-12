@@ -10,6 +10,7 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public class Connection{
 
     private static final Logger LOG = Logger.getLogger("Connection");
@@ -75,5 +76,9 @@ public class Connection{
             throw new IllegalArgumentException("No clientHandler for that address!");
         }
         return clientHandlers.get(address);
+    }
+
+    public HashMap<SocketAddress, ClientHandler> getConnections(){
+        return this.clientHandlers;
     }
 }

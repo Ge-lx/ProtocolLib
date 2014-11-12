@@ -26,7 +26,7 @@ public class PacketInfos{
     }
 
     public boolean hasResponse(){
-        return response != null;
+        return response != type;
     }
 
     public boolean isReceivable(){

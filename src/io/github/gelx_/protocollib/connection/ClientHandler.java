@@ -4,15 +4,13 @@ import io.github.gelx_.protocollib.protocol.Packet;
 import io.github.gelx_.protocollib.protocol.PacketHandler;
 import io.github.gelx_.protocollib.protocol.Protocol;
 
-import javax.net.ssl.HandshakeCompletedEvent;
-import javax.net.ssl.HandshakeCompletedListener;
-import javax.net.ssl.SSLSocket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
@@ -109,4 +107,7 @@ public class ClientHandler {
         return handler;
     }
 
+    public SocketAddress getRemoteAddress(){
+        return socket.getRemoteSocketAddress();
+    }
 }

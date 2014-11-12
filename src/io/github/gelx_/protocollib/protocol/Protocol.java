@@ -43,9 +43,9 @@ public abstract class Protocol {
 
         Constructor<? extends Packet> constructor;
         try {
-            constructor = packetClass.getConstructor(SocketAddress.class, Byte[].class);
+            constructor = packetClass.getConstructor(SocketAddress.class, byte[].class);
         } catch (NoSuchMethodException e) {
-            throw new InternalError("Packet " + packetClass.toString() + " does not implement a correct constructor!");
+            throw new RuntimeException("Packet " + packetClass.toString() + " does not implement a correct constructor!", e);
         }
 
         Packet packet;
@@ -72,7 +72,7 @@ public abstract class Protocol {
         try{
             return handlerClass.getConstructor(Protocol.class).newInstance(this);
         } catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
-            throw new InternalError("Could not instantiate a PacketHandler!");
+            throw new RuntimeException("Could not instantiate a PacketHandler!", e);
         }
     }
 

@@ -29,7 +29,7 @@ public abstract class PacketHandler {
                     this.handlers.put(packetInfo.getId(), m);
                     this.listeners.put(packetInfo.getType(), new ArrayList<PacketListener>());
                 } catch (NoSuchMethodException e) {
-                    throw new InternalError("No handling for packet " + packetInfo.getType().getSimpleName() + " implemented!");
+                    throw new RuntimeException("No handling for packet " + packetInfo.getType().getSimpleName() + " implemented!", e);
                 }
             }
         }
@@ -65,7 +65,7 @@ public abstract class PacketHandler {
         try {
             handlers.get(packet.getID()).invoke(this, packet);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new InternalError("Could not invoke handler for packet " + packet.getID());
+            throw new RuntimeException("Could not invoke handler for packet " + packet.getID(), e);
         }
     }
 

@@ -37,7 +37,7 @@ public class PacketResponseListener{
         client.getHandler().registerListener(responseType, listener);
 
         try {
-            wait(5000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             //nothing
         }

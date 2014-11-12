@@ -12,12 +12,10 @@ public class PacketResponseListener{
 
     private Connection connection;
     private Protocol protocol;
-    private Class<? extends Packet> type;
 
     public PacketResponseListener(Class<? extends Packet> type, Connection connection, Protocol protocol){
         this.connection = connection;
         this.protocol = protocol;
-        this.type = type;
 
         if(!protocol.getPacketInfos(type).hasResponse()){
             throw new IllegalArgumentException("Packet " + type.getSimpleName() + " has not response!");
@@ -28,7 +26,7 @@ public class PacketResponseListener{
         final Packet[] response = new Packet[1];
         final Thread currentThread = Thread.currentThread();
 
-        final ClientHandler client = connection.getConnection(packet.getAddress());
+        final ClientHandler client = connection.getConnection(packet.getDestinationAddress());
         final Class<? extends Packet> responseType = protocol.getPacketInfos(packet.getClass()).getResponsePacket();
 
         PacketListener listener = new PacketListener() {

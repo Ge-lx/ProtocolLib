@@ -20,6 +20,8 @@ public class PacketResponseListener{
     }
 
     public Packet sendAndGetResponse(final Packet packet, ClientHandler client) throws TimeoutException {
+        client.queuePacketForWrite(packet);
+
         final Packet[] response = new Packet[1];
         final Thread currentThread = Thread.currentThread();
 

@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -62,9 +63,9 @@ public abstract class PacketHandler {
             throw new IllegalArgumentException("No handler for packet " + packet.getID());
         }
         if(!listeners.get(packet.getClass()).isEmpty()){
-            for(PacketListener listener : listeners.get(packet.getClass())){
-                listener.handlePacket(packet);
-            }
+            Iterator<PacketListener> it = listeners.get(packet.getClass()).iterator();
+            while(it.hasNext())
+                it.next().handlePacket(packet);
         }
         try {
             handlers.get(packet.getID()).invoke(this, packet);

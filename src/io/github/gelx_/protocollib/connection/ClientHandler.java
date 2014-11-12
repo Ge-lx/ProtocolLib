@@ -62,7 +62,7 @@ public class ClientHandler {
                 int dataLength = inputStream.readInt();
                 byte[] data = new byte[dataLength];
                 inputStream.readFully(data);
-                handler.queueForHandle(protocol.unpackPacket(socket.getRemoteSocketAddress(), socket.getLocalSocketAddress(), packetID, (data)));
+                handler.queueForHandle(protocol.unpackPacket(socket.getRemoteSocketAddress(), packetID, (data)));
             } catch (EOFException e){
                 LOG.info("Connection with " + ((InetSocketAddress)socket.getRemoteSocketAddress()).getHostString() + " closed by remote host!") ;
                 Thread.currentThread().interrupt();
@@ -110,9 +110,5 @@ public class ClientHandler {
 
     public SocketAddress getRemoteAddress(){
         return socket.getRemoteSocketAddress();
-    }
-    @SuppressWarnings("unused")
-    public SocketAddress getLocalAddress() {
-        return socket.getLocalSocketAddress();
     }
 }

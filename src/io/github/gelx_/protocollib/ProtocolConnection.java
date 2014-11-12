@@ -27,11 +27,11 @@ public class ProtocolConnection {
     public ProtocolConnection(Protocol protocol, SocketAddress address, boolean server) throws IOException {
         this.isServer = server;
         if(isServer) {
-            this.server = new Connection(address, protocol);
+            this.server = new Connection(address, protocol, this);
         } else {
             InetAddress inetAddress = ((InetSocketAddress) address).getAddress();
             int port = ((InetSocketAddress) address).getPort();
-            this.client = new ClientHandler(SocketFactory.getDefault().createSocket(inetAddress, port), protocol);
+            this.client = new ClientHandler(SocketFactory.getDefault().createSocket(inetAddress, port), protocol, this);
         }
 
         protocol.getPacketInfos();

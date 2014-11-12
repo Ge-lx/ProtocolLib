@@ -1,5 +1,7 @@
 package io.github.gelx_.protocollib.protocol;
 
+import io.github.gelx_.protocollib.ProtocolConnection;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.SocketAddress;
@@ -68,9 +70,9 @@ public abstract class Protocol {
         return packetInfos.get(packet);
     }
 
-    public PacketHandler getNewHandler(){
+    public PacketHandler getNewHandler(ProtocolConnection connection){
         try{
-            return handlerClass.getConstructor(Protocol.class).newInstance(this);
+            return handlerClass.getConstructor(Protocol.class, ProtocolConnection.class).newInstance(this, connection);
         } catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
             throw new RuntimeException("Could not instantiate a PacketHandler!", e);
         }

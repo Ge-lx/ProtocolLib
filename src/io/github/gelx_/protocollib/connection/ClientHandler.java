@@ -1,5 +1,6 @@
 package io.github.gelx_.protocollib.connection;
 
+import io.github.gelx_.protocollib.ProtocolConnection;
 import io.github.gelx_.protocollib.protocol.Packet;
 import io.github.gelx_.protocollib.protocol.PacketHandler;
 import io.github.gelx_.protocollib.protocol.Protocol;
@@ -27,9 +28,9 @@ public class ClientHandler {
 
     private BlockingQueue<Packet> writeQueue = new LinkedBlockingQueue<>(50);
 
-    public ClientHandler(Socket socket, Protocol protocol){
+    public ClientHandler(Socket socket, Protocol protocol, ProtocolConnection connection){
         this.protocol = protocol;
-        this.handler = protocol.getNewHandler();
+        this.handler = protocol.getNewHandler(connection);
         this.socket = socket;
 
         recvThread = new Thread(new Runnable(){

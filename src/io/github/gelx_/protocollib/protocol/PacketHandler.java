@@ -1,6 +1,7 @@
 package io.github.gelx_.protocollib.protocol;
 
 import com.sun.media.jfxmedia.logging.Logger;
+import io.github.gelx_.protocollib.ProtocolConnection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,7 +20,10 @@ public abstract class PacketHandler {
 
     private Thread handler;
 
-    public PacketHandler(Protocol protocol) {
+    protected ProtocolConnection connection;
+
+    public PacketHandler(Protocol protocol, ProtocolConnection connection) {
+        this.connection = connection;
         List<PacketInfos> infos = protocol.getPacketInfos();
         for (PacketInfos packetInfo : infos) {
             if (packetInfo.isReceivable()) {

@@ -1,5 +1,6 @@
 package io.github.gelx_.protocollib.connection;
 
+import io.github.gelx_.protocollib.ProtocolConnection;
 import io.github.gelx_.protocollib.protocol.Protocol;
 
 import javax.net.ServerSocketFactory;
@@ -20,9 +21,11 @@ public class Connection{
     private HashMap<SocketAddress, ClientHandler> clientHandlers = new HashMap<>();
 
     private Protocol protocol;
+    private ProtocolConnection protocolConnection;
 
-    public Connection(SocketAddress bindAddress, Protocol protocol){
+    public Connection(SocketAddress bindAddress, Protocol protocol, ProtocolConnection protocolConnection){
         this.protocol = protocol;
+        this.protocolConnection = protocolConnection;
 
         try {
             serverSocket = ServerSocketFactory.getDefault().createServerSocket();
@@ -55,7 +58,7 @@ public class Connection{
                 LOG.severe("Error while waiting for client-connection! " + e.getMessage());
                 break;
             }
-            clientHandlers.put(clientSocket.getRemoteSocketAddress(), new ClientHandler(clientSocket, protocol));
+            clientHandlers.put(clientSocket.getRemoteSocketAddress(), new ClientHandler(clientSocket, protocol, protocolConnection));
         }
         try {
             serverSocket.close();

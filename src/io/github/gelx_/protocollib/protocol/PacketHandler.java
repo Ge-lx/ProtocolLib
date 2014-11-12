@@ -64,7 +64,7 @@ public abstract class PacketHandler {
         }
         if(!listeners.get(packet.getClass()).isEmpty()){
             Iterator<PacketListener> it = listeners.get(packet.getClass()).iterator();
-            while(it.hasNext())
+            while(it.hasNext()) //Iterator -> no ConcurrentModificationException
                 it.next().handlePacket(packet);
         }
         try {

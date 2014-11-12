@@ -111,4 +111,8 @@ public class ClientHandler {
     public SocketAddress getRemoteAddress(){
         return socket.getRemoteSocketAddress();
     }
+    @SuppressWarnings("unused")
+    public SocketAddress getLocalAddress() {
+        return socket.getLocalSocketAddress();
+    }
 }

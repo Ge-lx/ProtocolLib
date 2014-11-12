@@ -35,7 +35,7 @@ public abstract class Protocol {
         return buffer;
     }
 
-    public Packet unpackPacket(SocketAddress address, short id, byte[] data) {
+    public Packet unpackPacket(SocketAddress src, SocketAddress dst, short id, byte[] data) {
         if (!packets.containsKey(id)) {
             throw new IllegalArgumentException("Received unknown packet with id: " + id);
         }
@@ -43,14 +43,14 @@ public abstract class Protocol {
 
         Constructor<? extends Packet> constructor;
         try {
-            constructor = packetClass.getConstructor(SocketAddress.class, byte[].class);
+            constructor = packetClass.getConstructor(SocketAddress.class, SocketAddress.class, byte[].class);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Packet " + packetClass.toString() + " does not implement a correct constructor!", e);
         }
 
         Packet packet;
         try {
-             packet = constructor.newInstance(address, data);
+             packet = constructor.newInstance(src, dst, data);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new InternalError("Error while instantiating packet " + packetClass.toString() + ": " + e.getMessage());
         }

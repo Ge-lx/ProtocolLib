@@ -44,7 +44,7 @@ public class ProtocolConnection {
 
     public void sendPacket(Packet p){
         if(isServer) {
-            server.getConnection(p.getAddress()).queuePacketForWrite(p);
+            server.getConnection(p.getDestinationAddress()).queuePacketForWrite(p);
         } else {
             client.queuePacketForWrite(p);
         }

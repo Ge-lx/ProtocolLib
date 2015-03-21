@@ -18,27 +18,30 @@ import java.util.concurrent.TimeoutException;
 @SuppressWarnings("unused")
 public class ProtocolConnection {
 
-    private Connection server;
-    private ClientHandler client;
-    private boolean isServer;
+    protected Connection server;
+    protected ClientHandler client;
+    protected boolean isServer;
 
     private HashMap<Class<? extends Packet>, PacketResponseListener> listeners = new HashMap<>();
 
     public ProtocolConnection(Protocol protocol, SocketAddress address, boolean server) throws IOException {
         this.isServer = server;
+        protocol.getPacketInfos();
+        for(PacketInfos infos : protocol.getPacketInfos()) {
+            if (infos.hasResponse()) {
+                listeners.put(infos.getType(), new PacketResponseListener(infos.getType(), protocol));
+            }
+        }
+        this.connect(protocol, address);
+    }
+
+    protected void connect(Protocol protocol, SocketAddress address) throws IOException {
         if(isServer) {
             this.server = new Connection(address, protocol, this);
         } else {
             InetAddress inetAddress = ((InetSocketAddress) address).getAddress();
             int port = ((InetSocketAddress) address).getPort();
             this.client = new ClientHandler(SocketFactory.getDefault().createSocket(inetAddress, port), protocol, this);
-        }
-
-        protocol.getPacketInfos();
-        for(PacketInfos infos : protocol.getPacketInfos()){
-            if(infos.hasResponse()){
-                listeners.put(infos.getType(), new PacketResponseListener(infos.getType(), protocol));
-            }
         }
     }
 

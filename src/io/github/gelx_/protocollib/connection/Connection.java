@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 @SuppressWarnings("unused")
 public class Connection{
 
-    private static final Logger LOG = Logger.getLogger("Connection");
+    protected static final Logger LOG = Logger.getLogger("Connection");
 
-    private ServerSocket serverSocket;
-    private Thread serverThread;
+    protected ServerSocket serverSocket;
+    protected Thread serverThread;
     private HashMap<SocketAddress, ClientHandler> clientHandlers = new HashMap<>();
 
-    private Protocol protocol;
-    private ProtocolConnection protocolConnection;
+    protected Protocol protocol;
+    protected ProtocolConnection protocolConnection;
 
     public Connection(SocketAddress bindAddress, Protocol protocol, ProtocolConnection protocolConnection){
         this.protocol = protocol;

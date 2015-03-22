@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
+@SuppressWarnings("unused")
 public class SSLProtocolConnection extends ProtocolConnection {
 
     public SSLProtocolConnection(Protocol protocol, SocketAddress address, boolean server) throws IOException {

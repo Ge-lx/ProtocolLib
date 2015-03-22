@@ -30,7 +30,7 @@ public abstract class PacketHandler {
             if (packetInfo.isReceivable()) {
                 try {
                     String packetName = packetInfo.getType().getSimpleName();
-                    Method m = this.getClass().getMethod("handle" + packetName, Packet.class);
+                    Method m = this.getClass().getMethod("handle" + packetName, packetInfo.getType());
                     this.handlers.put(packetInfo.getId(), m);
                     this.listeners.put(packetInfo.getType(), new ArrayList<PacketListener>());
                 } catch (NoSuchMethodException e) {
